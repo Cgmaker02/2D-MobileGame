@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour, IDamageable
     private bool _resetJumpNeeded = false;
     private NewControls _input;
     private Animator _anim;
+    private bool _deathOccurred = false;
     [SerializeField] private float _jumpForce = 5.0f;
     [SerializeField] private bool _grounded = false;
     [SerializeField] private float _speed;
@@ -39,12 +41,16 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Attack_performed(InputAction.CallbackContext obj)
     {
-        _playerAnim.Attack();
+        if(_deathOccurred == false)
+        {
+            _playerAnim.Attack();
+        }
+       
     }
 
     private void Jump_performed(InputAction.CallbackContext obj)
     {
-        if(_grounded == true)
+        if(_grounded == true && _deathOccurred == false)
         {
             _myBody.velocity = new Vector2(_myBody.velocity.x, _jumpForce);
             _grounded = false;
@@ -60,10 +66,14 @@ public class Player : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        MobileMovement();
-        Movement();
-        Attack();
-        GroundCheck();
+        if(_deathOccurred == false)
+        {
+            MobileMovement();
+            Movement();
+            Attack();
+            GroundCheck();
+        }
+       
     }
 
     void Movement()
@@ -90,8 +100,8 @@ public class Player : MonoBehaviour, IDamageable
             StartCoroutine(JumpReset());
         }
 
-       // _myBody.velocity = new Vector2(x * _speed, _myBody.velocity.y);
-       // _playerAnim.PlayerMove(x);*/
+        _myBody.velocity = new Vector2(x * _speed, _myBody.velocity.y);
+        _playerAnim.PlayerMove(x);*/
     }
 
     void GroundCheck()
@@ -163,6 +173,8 @@ public class Player : MonoBehaviour, IDamageable
         {
             Debug.Log("Death has occured");
             _playerAnim.Death();
+            _deathOccurred = true;
+            StartCoroutine(ResetGame());
         }
     }
 
@@ -186,5 +198,11 @@ public class Player : MonoBehaviour, IDamageable
             Flip(false);
         }
         _playerAnim.PlayerMove(move.x);
+    }
+
+    IEnumerator ResetGame()
+    {
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene(0);
     }
 }

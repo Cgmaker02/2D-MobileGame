@@ -8,6 +8,12 @@ public class Shop : MonoBehaviour
     public int currentSelectedItem;
     public int currentItemCost;
     private Player _player;
+    private ADEvent _adEvent;
+
+    private void Start()
+    {
+        _adEvent = GameObject.Find("AdManager").GetComponent<ADEvent>();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

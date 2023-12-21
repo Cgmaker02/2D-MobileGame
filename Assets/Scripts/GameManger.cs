@@ -18,9 +18,11 @@ public class GameManger : MonoBehaviour
     }
 
     public bool hasKeyToCastle { get; set; }
+    public Player player { get; private set; }
 
     private void Awake()
     {
         _instance = this;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 }

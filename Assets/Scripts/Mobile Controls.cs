@@ -179,6 +179,17 @@ public partial class @NewControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""80e6b787-b672-43b4-bec8-52e0a8145b14"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6c0acda2-c603-4e74-8b82-1a92942ed9e1"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
